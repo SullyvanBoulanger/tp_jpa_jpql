@@ -1,0 +1,15 @@
+services:
+  mysql_db:
+    image: mariadb
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_USER: cats4ever
+      MYSQL_PASSWORD: cats4life
+      MYSQL_DATABASE: movie_db
+      MARIADB_INITDB_ARGS: "--collation=utf8mb4_general_ci --character-set-server=utf8mb4"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql/data_structure.sql:/docker-entrypoint-initdb.d/01-data_structure.sql
+      - ./sql/data_insert.sql:/docker-entrypoint-initdb.d/02-data_insert.sql
+    command: mariadbd --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --init-connect='SET NAMES utf8;'
